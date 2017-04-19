@@ -1,13 +1,14 @@
 <?php
+date_default_timezone_set('Europe/Moscow'); // добавил данную функцию так как была ошибка...
 $days = rand(0, 3);
 $task_deadline_ts = strtotime("+" . $days . " day"); // метка времени даты выполнения задачи
 $current_ts = time(); // текущая метка времени
 
 // запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = null;
+$date_deadline = date("d.m.Y", $task_deadline_ts);
 
 // в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = null;
+$days_until_deadline = floor(($task_deadline_ts - $current_ts)/ 86400);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,7 +136,11 @@ $days_until_deadline = null;
                     </tr>
 
                     <!--добавьте здесь класс "task--important" если эта задача просрочена-->
+                <?php if ($days_until_deadline < 1 ): ?>
+                    <tr class="tasks__item task task--important">
+                <?php else: ?>
                     <tr class="tasks__item task">
+                <?php endif; ?>
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox">
@@ -145,6 +150,7 @@ $days_until_deadline = null;
 
                         <td class="task__date">
                             <!--выведите здесь дату выполнения задачи-->
+                            <?php print($date_deadline); ?>
                         </td>
 
                         <td class="task__controls">
