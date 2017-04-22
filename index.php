@@ -1,40 +1,40 @@
 <?php 
 $categories = ['Все', 'Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
 $task1 = [
-'task' => 'Собеседование в IT компании',
-'date' => '01.06.2017',
-'category' => 'Работа',
-'ready' => 'Нет'
+    'task' => 'Собеседование в IT компании',
+    'date' => '01.06.2017',
+    'category' => 'Работа',
+    'ready' => 'Нет'
 ];
 $task2 = [
-'task' => 'Выполнить тестовое задание',
-'date' => '25.05.2017',
-'category' => 'Работа',
-'ready' => 'Нет'
+    'task' => 'Выполнить тестовое задание',
+    'date' => '25.05.2017',
+    'category' => 'Работа',
+    'ready' => 'Нет'
 ];
 $task3 = [
-'task' => 'Сделать задание первого раздела',
-'date' => '21.04.2017',
-'category' => 'Учеба',
-'ready' => 'Да'
+    'task' => 'Сделать задание первого раздела',
+    'date' => '21.04.2017',
+    'category' => 'Учеба',
+    'ready' => 'Да'
 ];
 $task4 = [
-'task' => 'Встреча с другом',
-'date' => '22.04.2017',
-'category' => 'Входящие',
-'ready' => 'Нет'
+    'task' => 'Встреча с другом',
+    'date' => '22.04.2017',
+    'category' => 'Входящие',
+    'ready' => 'Нет'
 ];
 $task5 = [
-'task' => 'Купить корм для кота',
-'date' => 'Нет',
-'category' => 'Домашние дела',
-'ready' => 'Нет'
+    'task' => 'Купить корм для кота',
+    'date' => 'Нет',
+    'category' => 'Домашние дела',
+    'ready' => 'Нет'
 ];
 $task6 = [
-'task' => 'Заказать пиццу',
-'date' => 'Нет',
-'category' => 'Домашние дела',
-'ready' => 'Нет'
+    'task' => 'Заказать пиццу',
+    'date' => 'Нет',
+    'category' => 'Домашние дела',
+    'ready' => 'Нет'
 ];
 $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
 ?>
@@ -91,9 +91,9 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
 
                                 if ($index == 0): ?>
                                 <li class="main-navigation__list-item main-navigation__list-item--active">
-                                <? else: ?>
+                                <?php else: ?>
                                 <li class="main-navigation__list-item">                     
-                                <? endif; ?>
+                                <?php endif; ?>
                                 <a class="main-navigation__list-item-link" href="#"><?=$cat; ?></a>
                                 <span class="main-navigation__list-item-count">5</span>
                             </li>
@@ -149,9 +149,9 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
 
                             <?php if ($val['ready'] == "Да"): ?>
                                 <tr class="tasks__item task <?='task--completed'?>">
-                                <? else: ?>
+                            <?php else: ?>
                                 <tr class="tasks__item task">
-                                <? endif; ?>
+                            <?php endif; ?>
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
                                         <input class="checkbox__input visually-hidden" type="checkbox">
@@ -178,7 +178,7 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
                                     </ul>
                                 </td>
                             </tr>
-                            
+
 
                         <?php endforeach; ?>
 
