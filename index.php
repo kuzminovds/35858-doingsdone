@@ -40,12 +40,14 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
 
 function counter_task($array, $string) {
     $countTask = 0;
-
-    foreach ($array as $key => $val) {
-        if ($val['category'] == $string && $string != 'Все') {
-            $countTask = $countTask + 1;
-        } else if ($string == 'Все') {
-            $countTask = count($array);
+    
+    if ($string == 'Все') {
+        $countTask = count($array);
+    } else {
+        foreach ($array as $key => $val) {
+            if ($val['category'] == $string) {
+                $countTask = $countTask + 1;
+            }
         }
     }
 
