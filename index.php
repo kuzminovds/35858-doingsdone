@@ -37,6 +37,22 @@ $task6 = [
     'ready' => 'Нет'
 ];
 $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
+
+function counter_task($array, $string) {
+    $countTask = 0;
+    
+    if ($string == 'Все') {
+        $countTask = count($array);
+    } else {
+        foreach ($array as $key => $val) {
+            if ($val['category'] == $string) {
+                $countTask = $countTask + 1;
+            }
+        }
+    }
+
+    return $countTask;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +111,7 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
                                 <li class="main-navigation__list-item">                     
                                 <?php endif; ?>
                                 <a class="main-navigation__list-item-link" href="#"><?=$cat; ?></a>
-                                <span class="main-navigation__list-item-count">5</span>
+                                <span class="main-navigation__list-item-count"><?php print (counter_task($tasks, $cat)); ?></span>
                             </li>
                             <?php 
                             $index++; } ?>
