@@ -1,5 +1,4 @@
 <?php
-
 function counter_task($array, $string) {
     $countTask = 0;
     
@@ -77,4 +76,5 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
 $header = includeTemplate('header', []);
 $main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks]);
 $footer = includeTemplate('footer', []);
+
 

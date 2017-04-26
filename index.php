@@ -1,5 +1,10 @@
 <?php 
 include 'functions.php';
+
+if ($_GET['cat'] > count($categories)) {
+    header("HTTP/1.1 404 Not Found");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
