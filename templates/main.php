@@ -40,25 +40,12 @@
 
                     <div class="tasks-controls">
                         <div class="radio-button-group">
-                            <label class="radio-button">
-                                <input class="radio-button__input visually-hidden" type="radio" name="radio" checked="">
-                                <span class="radio-button__text">Все задачи</span>
-                            </label>
-
-                            <label class="radio-button">
-                                <input class="radio-button__input visually-hidden" type="radio" name="radio">
-                                <span class="radio-button__text">Повестка дня</span>
-                            </label>
-
-                            <label class="radio-button">
-                                <input class="radio-button__input visually-hidden" type="radio" name="radio">
-                                <span class="radio-button__text">Завтра</span>
-                            </label>
-
-                            <label class="radio-button">
-                                <input class="radio-button__input visually-hidden" type="radio" name="radio">
-                                <span class="radio-button__text">Просроченные</span>
-                            </label>
+                            <nav class="tasks-switch"> 
+                              <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a> 
+                              <a href="/" class="tasks-switch__item">Повестка дня</a> 
+                              <a href="/" class="tasks-switch__item">Завтра</a> 
+                              <a href="/" class="tasks-switch__item">Просроченные</a> 
+                            </nav>
                         </div>
 
                         <label class="checkbox">
