@@ -1,32 +1,3 @@
-<?php 
-
-function counter_task($array, $string) {
-    $countTask = 0;
-    
-    if ($string == 'Все') {
-        $countTask = count($array);
-    } else {
-        foreach ($array as $key => $val) {
-            if ($val['category'] == $string) {
-                $countTask = $countTask + 1;
-            }
-        }
-    }
-
-    return $countTask;
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Дела в Порядке!</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body><!--class="overlay"-->
     <h1 class="visually-hidden">Дела в порядке</h1>
 
     <div class="page-wrapper">
