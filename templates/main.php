@@ -17,7 +17,7 @@
                                 <?php else: ?>
                                 <li class="main-navigation__list-item">                     
                                 <?php endif; ?>
-                                <a class="main-navigation__list-item-link" href="#"><?=$cat; ?></a>
+                                <a class="main-navigation__list-item-link" href="/index.php?cat=<?=$index; ?>"><?=$cat; ?></a>
                                 <span class="main-navigation__list-item-count"><?php print (counter_task($data['tasks'], $cat)); ?></span>
                             </li>
                             <?php 
@@ -56,39 +56,74 @@
 
                     <table class="tasks">
                         <?php foreach ($data['tasks'] as $key => $val): ?>
+                            <?php if ($_GET['cat'] == 0): ?>
 
-                            <?php if ($val['ready'] == "Да"): ?>
-                                <tr class="tasks__item task <?='task--completed'?>">
-                            <?php else: ?>
-                                <tr class="tasks__item task">
+                                <?php if ($val['ready'] == "Да"): ?>
+                                    <tr class="tasks__item task <?='task--completed'?>">
+                                <?php else: ?>
+                                    <tr class="tasks__item task">
+                                <?php endif; ?>
+                                    <td class="task__select">
+                                        <label class="checkbox task__checkbox">
+                                            <input class="checkbox__input visually-hidden" type="checkbox">
+                                            <span class="checkbox__text"><?=$val['task'];?></span>
+                                        </label>
+                                    </td>
+                                    <td class="task__date"><?=$val['date'];?></td>
+
+                                    <td class="task__controls">
+                                        <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
+
+                                        <ul class="expand-list hidden">
+                                            <li class="expand-list__item">
+                                                <a href="#">Выполнить</a>
+                                            </li>
+
+                                            <li class="expand-list__item">
+                                                <a href="#">Удалить</a>
+                                            </li>
+
+                                            <li class="expand-list__item">
+                                                <a href="#">Дублировать</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            <?php elseif ($data['categories'][$_GET['cat']] == $val['category']): ?>
+
+                                <?php if ($val['ready'] == "Да"): ?>
+                                    <tr class="tasks__item task <?='task--completed'?>">
+                                <?php else: ?>
+                                    <tr class="tasks__item task">
+                                <?php endif; ?>
+                                    <td class="task__select">
+                                        <label class="checkbox task__checkbox">
+                                            <input class="checkbox__input visually-hidden" type="checkbox">
+                                            <span class="checkbox__text"><?=$val['task'];?></span>
+                                        </label>
+                                    </td>
+                                    <td class="task__date"><?=$val['date'];?></td>
+
+                                    <td class="task__controls">
+                                        <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
+
+                                        <ul class="expand-list hidden">
+                                            <li class="expand-list__item">
+                                                <a href="#">Выполнить</a>
+                                            </li>
+
+                                            <li class="expand-list__item">
+                                                <a href="#">Удалить</a>
+                                            </li>
+
+                                            <li class="expand-list__item">
+                                                <a href="#">Дублировать</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                
                             <?php endif; ?>
-                                <td class="task__select">
-                                    <label class="checkbox task__checkbox">
-                                        <input class="checkbox__input visually-hidden" type="checkbox">
-                                        <span class="checkbox__text"><?=$val['task'];?></span>
-                                    </label>
-                                </td>
-                                <td class="task__date"><?=$val['date'];?></td>
-
-                                <td class="task__controls">
-                                    <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
-
-                                    <ul class="expand-list hidden">
-                                        <li class="expand-list__item">
-                                            <a href="#">Выполнить</a>
-                                        </li>
-
-                                        <li class="expand-list__item">
-                                            <a href="#">Удалить</a>
-                                        </li>
-
-                                        <li class="expand-list__item">
-                                            <a href="#">Дублировать</a>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-
 
                         <?php endforeach; ?>
 

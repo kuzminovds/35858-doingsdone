@@ -1,4 +1,7 @@
 <?php
+if ($_GET['cat'] > count($categories)) {
+	header("HTTP/1.1 404 Not Found");
+}
 
 function counter_task($array, $string) {
     $countTask = 0;
