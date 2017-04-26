@@ -1,43 +1,3 @@
-<?php 
-$categories = ['Все', 'Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
-$task1 = [
-    'task' => 'Собеседование в IT компании',
-    'date' => '01.06.2017',
-    'category' => 'Работа',
-    'ready' => 'Нет'
-];
-$task2 = [
-    'task' => 'Выполнить тестовое задание',
-    'date' => '25.05.2017',
-    'category' => 'Работа',
-    'ready' => 'Нет'
-];
-$task3 = [
-    'task' => 'Сделать задание первого раздела',
-    'date' => '21.04.2017',
-    'category' => 'Учеба',
-    'ready' => 'Да'
-];
-$task4 = [
-    'task' => 'Встреча с другом',
-    'date' => '22.04.2017',
-    'category' => 'Входящие',
-    'ready' => 'Нет'
-];
-$task5 = [
-    'task' => 'Купить корм для кота',
-    'date' => 'Нет',
-    'category' => 'Домашние дела',
-    'ready' => 'Нет'
-];
-$task6 = [
-    'task' => 'Заказать пиццу',
-    'date' => 'Нет',
-    'category' => 'Домашние дела',
-    'ready' => 'Нет'
-];
-$tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
- ?>
             <div class="content">
                 <section class="content__side">
                     <h2 class="content__side-heading">Проекты</h2>
@@ -47,10 +7,10 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
 
                             <?php 
                             $index = 0;
-                            $num = count($categories);
+                            $num = count($data['categories']);
 
                             while ($index < $num) {
-                                $cat = $categories[$index];
+                                $cat = $data['categories'][$index];
 
                                 if ($index == 0): ?>
                                 <li class="main-navigation__list-item main-navigation__list-item--active">
@@ -58,7 +18,7 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
                                 <li class="main-navigation__list-item">                     
                                 <?php endif; ?>
                                 <a class="main-navigation__list-item-link" href="#"><?=$cat; ?></a>
-                                <span class="main-navigation__list-item-count"><?php print (counter_task($tasks, $cat)); ?></span>
+                                <span class="main-navigation__list-item-count"><?php print (counter_task($data['tasks'], $cat)); ?></span>
                             </li>
                             <?php 
                             $index++; } ?>
@@ -108,7 +68,7 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
                     </div>
 
                     <table class="tasks">
-                        <?php foreach ($tasks as $key => $val): ?>
+                        <?php foreach ($data['tasks'] as $key => $val): ?>
 
                             <?php if ($val['ready'] == "Да"): ?>
                                 <tr class="tasks__item task <?='task--completed'?>">
