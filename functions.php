@@ -76,5 +76,6 @@ $tasks = [$task1, $task2, $task3, $task4, $task5, $task6];
 $header = includeTemplate('header', []);
 $main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks]);
 $footer = includeTemplate('footer', []);
+$form = includeTemplate('form', []);
 
 

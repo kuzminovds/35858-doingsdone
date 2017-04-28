@@ -16,7 +16,19 @@ if ($_GET['cat'] > count($categories)) {
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body><!--class="overlay"-->
+<?php if (isset($_GET['add'])): ?>
+    <body class="overlay">
+    <?=$form; ?>
+<?php endif; ?>
+
+<?php
+  $error = "Заполните это поле";
+  $name = $_POST["name"];
+  $project =$_POST["project"];
+  $date =$_POST["date"];
+?>
+
+<body>
 
     <?=$header, $main, $footer; ?>
 
