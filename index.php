@@ -1,8 +1,12 @@
-<?php 
+<?php
+session_start();
 include 'functions.php';
 
 if (!isset($categories[$_GET['cat']])) {
     header("HTTP/1.1 404 Not Found");
+}
+if (!isset($_SESSION['user'])) {
+  header("Location: /guest.php");
 }
 ?>
 <!DOCTYPE html>
