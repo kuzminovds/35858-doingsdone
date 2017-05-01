@@ -49,20 +49,25 @@
                         </div>
 
                         <label class="checkbox">
-                            <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" checked>
+                            <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
                             <span class="checkbox__text">Показывать выполненные</span>
+                            <?php $temp = 1; ?>
                         </label>
                     </div>
 
                     <table class="tasks">
                         <?php foreach ($data['tasks'] as $key => $val): ?>
                             <?php if ($_GET['cat'] == 0): ?>
-
-                                <?php if ($val['ready'] == "Да"): ?>
-                                    <tr class="tasks__item task <?='task--completed'?>">
+                                <?php if ($temp == 1 && $val['ready'] == "Да"): ?>
+                                    <tr class="tasks__item task <?='task--completed'?> hidden">
+                                
                                 <?php else: ?>
-                                    <tr class="tasks__item task">
-                                <?php endif; ?>
+                                    <?php if ($val['ready'] == "Да"): ?>
+                                        <tr class="tasks__item task <?='task--completed'?>">
+                                    <?php else: ?>
+                                        <tr class="tasks__item task">
+                                    <?php endif; ?>
+                                <?php endif ?>
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
                                             <input class="checkbox__input visually-hidden" type="checkbox">

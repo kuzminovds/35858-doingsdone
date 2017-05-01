@@ -140,6 +140,6 @@ if (isset($_GET['logout'])) {
 }
 
 $header = includeTemplate('header', []);
-$main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks]);
+$main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks, 'show_comleted_status' => $show_comleted_status]);
 $footer = includeTemplate('footer', []);
 $form = includeTemplate('form', ['errors' => $errors, 'last_data' => $last_data]);
