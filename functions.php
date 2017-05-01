@@ -90,31 +90,39 @@ if (!empty($_POST)) {
   if (isset($name)) {
     if (strlen($name) == 0) {
       $errors["name"] = "Заполните поле - Название";
-      // print($errors["name"]);
     }
   }
 
   if (isset($project)) {
     if (strlen($project) == 0) {
       $errors["project"] = "Заполните поле - Проект";
-      // print($errors["project"]);
     }
   }
 
   if (isset($date)) {
     if (strlen($date) == 0) {
       $errors["date"] = "Заполните поле - Дата выполнения";
-      // print($errors["date"]);
     }
+  if ($errors == []) {
+  	unset($_GET['add']);
+  	$last_data = [];
+  	$new_task = [
+		    'task' => $name,
+		    'date' => $date,
+		    'category' => $project,
+		    'ready' => 'Нет'
+		];
+		array_unshift($tasks, $new_task);
+		
+		if (isset($_FILES['preview'])) {
+			$file = $_FILES['preview'];
+			print("Загружен файл с именем " . $file['name'] . " и размером " . $file['size'] . " байт");
+		}
+  }
   }
 
-	  // Проверка сущестования переменных...
-	  // if ($errors != []) {
-	  //   print("Есть ошибка!!!");
-	  //   print($errors['name']);
-	  //   print($last_data['name']);
-	  // }
 }
+
 
 $header = includeTemplate('header', []);
 $main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks]);
