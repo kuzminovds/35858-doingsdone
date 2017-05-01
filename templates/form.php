@@ -6,22 +6,25 @@
     <form class="form" class="" action="index.php" method="post">
       <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
-
-        <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
+        <?php if(isset($data['errors']['name'])): ?>
+          <input class="form__input form__input--error" type="text" name="name" id="name" value="" placeholder="Введите название">
+          <span class="form__error"><?=$data['errors']['name']; ?></span>
+        <?php else: ?>
+          <input class="form__input" type="text" name="name" id="name" value="<?=$data['last_data']['name']; ?>" placeholder="Введите название">
+        <?php endif; ?>
       </div>
 
       <div class="form__row">
         <label class="form__label" for="project">Проект <sup>*</sup></label>
-
         <select class="form__input form__input--select" name="project" id="project">
-          <option value="">Входящие</option>
+          <option value="">Выбрать проект...</option>
+          <option value="Входящие">Входящие</option>
         </select>
       </div>
 
       <div class="form__row">
         <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
-
-        <input class="form__input form__input--date" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+        <input class="form__input form__input--date" type="text" name="date" id="date" value="<?=$_POST["date"]; ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
       </div>
 
       <div class="form__row">
