@@ -3,7 +3,7 @@
 
     <h2 class="modal__heading">Добавление задачи</h2>
 
-    <form class="form" class="" action="index.php?add" method="post">
+    <form class="form" class="" action="index.php?add" method="post" enctype="multipart/form-data">
       <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
         <?php if(isset($data['errors']['name'])): ?>

@@ -113,10 +113,10 @@ if (!empty($_POST)) {
 		    'ready' => 'Нет'
 		];
 		array_unshift($tasks, $new_task);
-		
+
 		if (isset($_FILES['preview'])) {
 			$file = $_FILES['preview'];
-			print("Загружен файл с именем " . $file['name'] . " и размером " . $file['size'] . " байт");
+			move_uploaded_file($file["tmp_name"], __DIR__.DIRECTORY_SEPARATOR.$file["name"]);
 		}
   }
   }
