@@ -20,7 +20,9 @@ if (!empty($_POST)) {
     }
   }
   if (isset($password)) {
+    if (strlen($password) == 0) {
       $login_errors['password'] = "Вы не указали - Пароль";
+    }
   }
 
   if ($user = searchUserByEmail($email, $users)) {
@@ -29,8 +31,6 @@ if (!empty($_POST)) {
       header("Location: /index.php");
     } 
   }
-
-
 }
 
 $form = includeTemplate('login', ['login_errors' => $login_errors, 'login_data' => $login_data]);
