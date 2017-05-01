@@ -49,16 +49,21 @@
                         </div>
 
                         <label class="checkbox">
-                            <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
+                            <?php if (isset($_COOKIE["show_completed"]) && $_COOKIE["show_completed"] == 1): ?>
+                                <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" checked>
+                            <?php else: ?>
+                                <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
+
+                            <?php endif ?>
                             <span class="checkbox__text">Показывать выполненные</span>
-                            <?php $temp = 1; ?>
+                            
                         </label>
                     </div>
 
                     <table class="tasks">
                         <?php foreach ($data['tasks'] as $key => $val): ?>
                             <?php if ($_GET['cat'] == 0): ?>
-                                <?php if ($temp == 1 && $val['ready'] == "Да"): ?>
+                                <?php if ($_COOKIE["show_completed"] == 1 && $val['ready'] == "Да"): ?>
                                     <tr class="tasks__item task <?='task--completed'?> hidden">
                                 
                                 <?php else: ?>
