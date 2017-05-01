@@ -124,7 +124,22 @@ if (!empty($_POST)) {
   }
 }
 
+function searchUserByEmail($email, $users) {
+	$result = null;
+	foreach ($users as $user) {
+		if ($user['email'] == $email) {
+		  $result = $user;
+			break;
+		}
+	}
+	return $result; 
+}
+
+if (isset($_GET['logout'])) {
+    unset($_SESSION['user']);
+}
+
 $header = includeTemplate('header', []);
 $main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks]);
 $footer = includeTemplate('footer', []);
-$form = includeTemplate('form', ['errors' => $errors, 'last_data' => $last_data]); 
+$form = includeTemplate('form', ['errors' => $errors, 'last_data' => $last_data]);
