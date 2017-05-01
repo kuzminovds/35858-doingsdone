@@ -103,30 +103,28 @@ if (!empty($_POST)) {
     if (strlen($date) == 0) {
       $errors["date"] = "Заполните поле - Дата выполнения";
     }
-  if ($errors == []) {
-  	unset($_GET['add']);
-  	$last_data = [];
-  	$new_task = [
-		    'task' => $name,
-		    'date' => $date,
-		    'category' => $project,
-		    'ready' => 'Нет'
-		];
-		array_unshift($tasks, $new_task);
+	  if ($errors == []) {
+	  	unset($_GET['add']);
+	  	$last_data = [];
+	  	$new_task = [
+			    'task' => $name,
+			    'date' => $date,
+			    'category' => $project,
+			    'ready' => 'Нет'
+			];
+			array_unshift($tasks, $new_task);
 
-		if (isset($_FILES['preview'])) {
-			$file = $_FILES['preview'];
-			move_uploaded_file($file["tmp_name"], __DIR__.DIRECTORY_SEPARATOR.$file["name"]);
-		}
+			if (isset($_FILES['preview'])) {
+				$file = $_FILES['preview'];
+				$uploaddir = __DIR__.DIRECTORY_SEPARATOR.uploads.DIRECTORY_SEPARATOR;
+				$uploadfile = $uploaddir . basename($file['name']);
+				move_uploaded_file($file["tmp_name"], $uploadfile);
+			}
+	  }
   }
-  }
-
 }
-
 
 $header = includeTemplate('header', []);
 $main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks]);
 $footer = includeTemplate('footer', []);
 $form = includeTemplate('form', ['errors' => $errors, 'last_data' => $last_data]); 
-
-
