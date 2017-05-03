@@ -2,11 +2,25 @@
 session_start();
 include 'functions.php';
 
-if (!isset($categories[$_GET['cat']])) {
+if (isset($_GET['cat'])) {
+  if (!isset($categories[$_GET['cat']])) {
     header("HTTP/1.1 404 Not Found");
+  }
 }
+
 if (!isset($_SESSION['user'])) {
   header("Location: /guest.php");
+}
+
+if (isset($_GET['show_completed'])) {
+  $name = "show_completed";
+  $value = $_GET['show_completed'];
+  $expire = time()+3600;
+  $path   = "/";
+
+  setcookie($name, $value, $expire, $path);
+
+  header('Location: /index.php', 200);
 }
 ?>
 <!DOCTYPE html>
