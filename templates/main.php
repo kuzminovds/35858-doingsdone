@@ -63,7 +63,7 @@
                     <table class="tasks">
                         <?php foreach ($data['tasks'] as $key => $val): ?>
                             <?php if ($_GET['cat'] == 0): ?>
-                                <?php if ($_COOKIE["show_completed"] == 1 && $val['ready'] == "Да"): ?>
+                                <?php if ($_COOKIE["show_completed"] == 0 && $val['ready'] == "Да"): ?>
                                     <tr class="tasks__item task <?='task--completed'?> hidden">
                                 
                                 <?php else: ?>
