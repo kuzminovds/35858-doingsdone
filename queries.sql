@@ -6,7 +6,7 @@ SELECT * FROM tasks WHERE project_id = 1;
 
 -- пометить задачу как выполненную;
 INSERT INTO tasks SET title = 'Встреча с другом', deadline = '2017.05.05', project_id = 1; -- создаем задачу
-UPDATE tasks SET dt_ready = '2017.05.05'; WHERE id = 1 AND title = 'Встреча с другом';     -- помечаем задачу
+UPDATE tasks SET dt_ready = '2017.05.05' WHERE id = 1;     																 -- помечаем задачу
 
 -- добавить новый проект;
 INSERT INTO projects SET name = 'Сайт';
