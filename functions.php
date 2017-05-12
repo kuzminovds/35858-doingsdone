@@ -1,4 +1,10 @@
 <?php
+$con = mysqli_connect("localhost", "root", "", "todolist");
+
+include 'mysql_helper.php';
+
+
+
 function counter_task($array, $string) {
     $countTask = 0;
     
