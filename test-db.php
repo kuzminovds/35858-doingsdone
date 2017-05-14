@@ -29,7 +29,6 @@
 		first($result_1, $sql_1);
 
 
-
 		// Функция для вставки данных.
 		$sql_2 = "INSERT INTO users (dt_reg, name, email, password) VALUES (NOW(), ?, ?, ?)";
 
@@ -49,8 +48,24 @@
 
 		second($con, $sql_2, [$name, $email, $password]);
 
-		function third($result, $tb_name, $sql, $data) {
+		// Функция для обновление данных.
 
+		$table = 'users';
+		$main = "name = 'Пётр'";
+		$instr = "id = 3";
+
+		function third($result, $table, $main, $instruction) {
+
+			$sql_3 = "UPDATE " . $table . " SET " . $main . " WHERE " . $instruction;
+			$new = db_get_prepare_stmt($result, $sql_3, $data = []);
+			$add = mysqli_stmt_execute($new);
+			if ($add == false) {
+				print('Ошибка при добавлении данных' . $sql_3);
+			} else {
+				print ("Количество обновленных данных" . mysqli_affected_rows($result));
+			}
 		}
+
+		third($con, $table, $main, $instr);
 
 	}
