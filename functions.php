@@ -67,7 +67,7 @@ if ($con == false){
 	}
 
 		// Вывод списка заданий
-	$sql = "SELECT id, title, deadline, project_id, dt_ready FROM tasks";
+	$sql = "SELECT id, title, deadline, project_id, dt_ready, ready FROM tasks";
 	$result = mysqli_query($con, $sql);
 
 	if ($result) {

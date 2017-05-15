@@ -67,14 +67,11 @@
                     <table class="tasks">
                         <?php foreach ($data['tasks'] as $key => $val): ?>
                             <?php if ($_GET['cat'] == 0): ?>
-                                <?php if ($_COOKIE["show_completed"] == 0 && isset($val['dt_ready']) AND strtotime($val['dt_ready'])<strtotime($curdate)): ?>
+                                <?php if ($_COOKIE["show_completed"] == 0 AND $val['ready'] == 1): ?>
                                     <tr class="tasks__item task <?='task--completed'?> hidden">
                                 
                                 <?php else: ?>
-                                    <?php 
-                                        $curdate = date('d-m-Y', strtotime('now'));
-                                     ?>
-                                    <?php if (isset($val['dt_ready']) AND strtotime($val['dt_ready'])<strtotime($curdate)): ?>
+                                    <?php if ($val['ready'] == 1): ?>
                                         <tr class="tasks__item task <?='task--completed'?>">
                                     <?php else: ?>
                                         <tr class="tasks__item task">
@@ -93,7 +90,7 @@
 
                                         <ul class="expand-list hidden">
                                             <li class="expand-list__item">
-                                                <a href="#">Выполнить</a>
+                                                <a href="/change-status.php?id=<?=$val['id'];?>&status=1">Выполнить</a>
                                             </li>
 
                                             <li class="expand-list__item">
@@ -108,11 +105,16 @@
                                 </tr>
                             <?php elseif ($_GET['cat'] == $val['project_id']): ?>
 
-                                    <?php if (isset($val['dt_ready']) AND strtotime($val['dt_ready'])<strtotime($curdate)): ?>
+                                <?php if ($_COOKIE["show_completed"] == 0 AND $val['ready'] == 1): ?>
+                                    <tr class="tasks__item task <?='task--completed'?> hidden">
+                                
+                                <?php else: ?>
+                                    <?php if ($val['ready'] == 1): ?>
                                         <tr class="tasks__item task <?='task--completed'?>">
                                     <?php else: ?>
                                         <tr class="tasks__item task">
                                     <?php endif; ?>
+                                <?php endif ?>
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
                                             <input class="checkbox__input visually-hidden" type="checkbox">
@@ -126,7 +128,7 @@
 
                                         <ul class="expand-list hidden">
                                             <li class="expand-list__item">
-                                                <a href="#">Выполнить</a>
+                                                <a href="/change-status.php?id=<?=$val['id'];?>&status=1">Выполнить</a>
                                             </li>
 
                                             <li class="expand-list__item">
