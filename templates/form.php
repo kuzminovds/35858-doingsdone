@@ -1,3 +1,21 @@
+<?php 
+$con = mysqli_connect("localhost", "root", "root", "todolist");
+if ($con == false){
+  print("Ошибка подключения: " . mysqli_connect_error());
+} else {
+    // Вывод списка категорий
+  $sql = "SELECT id, name FROM projects";
+  $result = mysqli_query($con, $sql);
+
+  if ($result) {
+    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+      // print_r($categories);
+  } else {
+    $error = mysqli_error($con);
+  }
+}
+ ?>
+
   <div class="modal">
     <button class="modal__close" type="button" name="button">Закрыть</button>
 
@@ -25,7 +43,10 @@
         <?php else: ?>
           <select class="form__input form__input--select" name="project" id="project">
             <option value="">Выбрать проект...</option>
-            <option value="Входящие" <?php @$data['last_data']['project']=="Входящие" ? print "selected" : false;?>>Входящие</option>
+
+            <?php foreach ($categories as $key => $cat): ?>
+              <option value="<?=$cat['id']; ?>" <?php @$data['last_data']['project']==$cat['id'] ? print "selected" : false;?>><?=$cat['name']; ?></option>
+            <?php endforeach ?>
           </select>
         <?php endif ?>
       </div>
@@ -33,7 +54,7 @@
       <div class="form__row">
         <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
         <?php if (isset($data['errors']['date'])): ?>
-          <input class="form__input form__input--date form__input--error" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+          <input class="form__input form__input--date form__input--error" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ.ММ.ДД">
           <span class="form__error error-massage"><?=$data['errors']['date']; ?></span>
         <?php else: ?>
           <input class="form__input form__input--date" type="text" name="date" id="date" value="<?=$data['last_data']['date']; ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">

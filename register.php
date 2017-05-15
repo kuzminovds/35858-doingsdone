@@ -1,28 +1,10 @@
 <?php 
-include 'functions.php';
+  include 'functions.php';
 
-
-$con = mysqli_connect("localhost", "root", "root", "todolist");
-
-if ($con == false){
-  print("Ошибка подключения: " . mysqli_connect_error());
-} else {
-
-    // Функция для получения email, имен и паролей. 
-  $sql = "SELECT id, email, name, password FROM users";
-  $result = mysqli_query($con, $sql);
-  if ($result) {
-    $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  } else {
-    $error = mysqli_error($con);
-  }
-}
-
-session_start();
-
-if (!empty($_POST)) {
+  if (!empty($_POST)) {
   $email = $_POST["email"];
-  $password = $_POST["password"];
+  $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+  $name = $_POST["name"];
 
   $login_data = [
                   'email' => $email
@@ -40,49 +22,108 @@ if (!empty($_POST)) {
       $login_errors['password'] = "Вы не указали - Пароль";
     }
   }
+  if (isset($name)) {
+    if (strlen($name) == 0) {
+      $login_errors['name'] = "Вы не указали - Имя";
+    }
+  }
+  $con = mysqli_connect("localhost", "root", "root", "todolist");
 
-  if ($user = searchUserByEmailLog($email, $users)) {
-    if (password_verify($password, $user['password'])) {
-      $_SESSION['user'] = $user; 
-      header("Location: /index.php");
-    } 
+  if ($con == false){
+  print("Ошибка подключения: " . mysqli_connect_error());
+  } else {
+
+    // Функция для получения email. 
+    $sql = "SELECT email FROM users";
+    $result = mysqli_query($con, $sql);
+    if ($result) {
+      $emails = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+      $error = mysqli_error($con);
+    }
+
+    if (searchUserByEmail($email, $emails)) {
+      $login_errors['email-have'] = "E-mail " . $email . " уже зарегистрирован!";
+    }
+  }
+  
+  if ($login_errors == []) {
+    $sql = "INSERT INTO users (dt_reg, name, email, password) VALUES (NOW(), ?, ?, ?)";
+    $add_user = add_data($con, $sql, [$name, $email, $password]);
+    header("Location: /index.php");
   }
 }
-
-$form = includeTemplate('login', ['login_errors' => $login_errors, 'login_data' => $login_data]);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>Дела в порядке - welcome page</title>
+  <title>Дела в порядке - registration page</title>
   <link rel="stylesheet" href="../css/normalize.css">
   <link rel="stylesheet" href="../css/style.css">
 </head>
+<body><!--class="overlay"-->
 
-  <?php if (isset($_GET['login'])): ?>
-    <body class="body-background overlay">
-    <?=$form; ?>
-  <?php else: ?>
-    <body class="body-background">
-  <?php endif; ?>
+  <h1 class="visually-hidden">Дела в порядке</h1>
 
-  <?=$header; ?>
+  <div class="page-wrapper">
+    <div class="container container--with-sidebar">
+      <header class="main-header">
+        <a href="#">
+          <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
+        </a>
+      </header>
 
       <div class="content">
-        <section class="welcome">
-          <h2 class="welcome__heading">«Дела в порядке»</h2>
+        <section class="content__side">
+          <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-          <div class="welcome__text">
-            <p>«Дела в порядке» — это веб приложение для удобного ведения списка дел. Сервис помогает пользователям не забывать о предстоящих важных событиях и задачах.</p>
-
-            <p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
-          </div>
-
-          <a class="welcome__button button" href="/register.php">Зарегистрироваться</a>
+          <a class="button button--transparent content__side-button" href="/guest.php">Войти</a>
         </section>
+
+        <main class="content__main">
+          <h2 class="content__main-heading">Регистрация аккаунта</h2>
+
+          <form class="form" class="" action="register.php" method="post">
+            <div class="form__row">
+              <label class="form__label" for="email">E-mail <sup>*</sup></label>
+              <?php if (isset($login_errors['email']) OR isset($login_errors['email-have'])): ?>
+                <input class="form__input form__input--error" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
+                <p class="form__message"><?=$login_errors['email']; ?> <?=$login_errors['email-have']; ?></p>
+              <?php else: ?>
+                <input class="form__input" type="text" name="email" id="email" value="<?=$email; ?>" placeholder="Введите e-mail">
+              <?php endif ?>
+            </div>
+
+            <div class="form__row">
+              <label class="form__label" for="password">Пароль <sup>*</sup></label>
+              <?php if (isset($login_errors['password'])): ?>
+                <input class="form__input form__input--error" type="password" name="password" id="password" value="" placeholder="Введите пароль">
+                <p class="form__message"><?=$login_errors['password']; ?></p>
+              <?php else: ?>
+                <input class="form__input" type="password" name="password" id="password" value="<?=$_POST["password"]; ?>" placeholder="Введите пароль">
+              <?php endif ?>
+            </div>
+
+            <div class="form__row">
+              <label class="form__label" for="name">Имя <sup>*</sup></label>
+              <?php if (isset($login_errors['name'])): ?>
+                <input class="form__input" type="name" name="name" id="name" value="" placeholder="Введите пароль">
+                <p class="form__message"><?=$login_errors['name']; ?></p>
+              <?php else: ?>
+                <input class="form__input" type="text" name="name" id="name" value="<?=$name; ?>" placeholder="Введите имя">
+              <?php endif ?>
+            </div>
+
+            <div class="form__row form__row--controls">
+              <?php if (isset($login_errors['name']) OR isset($login_errors['password']) OR isset($login_errors['email']) OR isset($login_errors['email-have'])): ?>
+                <p class="error-massage">Пожалуйста, исправьте ошибки в форме</p>
+              <?php endif ?>
+              <input class="button" type="submit" name="" value="Зарегистрироваться">
+            </div>
+          </form>
+        </main>
       </div>
     </div>
   </div>
