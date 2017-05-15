@@ -27,20 +27,6 @@
       $login_errors['name'] = "Вы не указали - Имя";
     }
   }
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Дела в порядке - registration page</title>
-  <link rel="stylesheet" href="../css/normalize.css">
-  <link rel="stylesheet" href="../css/style.css">
-</head>
-<body><!--class="overlay"-->
-
-<?php 
   $con = mysqli_connect("localhost", "root", "root", "todolist");
 
   if ($con == false){
@@ -60,7 +46,25 @@
       $login_errors['email-have'] = "E-mail " . $email . " уже зарегистрирован!";
     }
   }
+  
+  if ($login_errors == []) {
+    $sql = "INSERT INTO users (dt_reg, name, email, password) VALUES (NOW(), ?, ?, ?)";
+    $add_user = add_data($con, $sql, [$name, $email, $password]);
+    header("Location: /index.php");
+  }
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Дела в порядке - registration page</title>
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body><!--class="overlay"-->
+
   <h1 class="visually-hidden">Дела в порядке</h1>
 
   <div class="page-wrapper">
@@ -115,16 +119,6 @@
             <div class="form__row form__row--controls">
               <?php if (isset($login_errors['name']) OR isset($login_errors['password']) OR isset($login_errors['email']) OR isset($login_errors['email-have'])): ?>
                 <p class="error-massage">Пожалуйста, исправьте ошибки в форме</p>
-              <?php else: ?>
-
-                <?php
-                  $sql = "INSERT INTO users (dt_reg, name, email, password) VALUES (NOW(), ?, ?, ?)";
-                  $add_user = add_data($con, $sql, [$name, $email, $password]);
-                  if (!$add_user) {
-                    header("Location: /index.php");
-                  }
-                ?>
-                
               <?php endif ?>
               <input class="button" type="submit" name="" value="Зарегистрироваться">
             </div>
