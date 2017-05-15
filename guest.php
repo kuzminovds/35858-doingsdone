@@ -9,7 +9,7 @@ if ($con == false){
 } else {
 
     // Функция для получения email, имен и паролей. 
-  $sql = "SELECT email, name, password FROM users";
+  $sql = "SELECT id, email, name, password FROM users";
   $result = mysqli_query($con, $sql);
   if ($result) {
     $users = mysqli_fetch_all($result, MYSQLI_ASSOC);

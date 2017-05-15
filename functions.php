@@ -1,4 +1,5 @@
 <?php
+session_start();
 $con = mysqli_connect("localhost", "root", "root", "todolist");
 
 include 'mysql_helper.php';
@@ -118,8 +119,8 @@ if (!empty($_POST)) {
 		if ($con == false){
 		  print("Ошибка подключения: " . mysqli_connect_error());
 		} else {
-      $sql = "INSERT INTO tasks (dt_add, title, deadline, project_id) VALUES (NOW(), ?, ?, ?)";
-      add_data($con, $sql, [$name, $date, $project]);
+      $sql = "INSERT INTO tasks (dt_add, title, deadline, project_id, user_id) VALUES (NOW(), ?, ?, ?, ?)";
+      add_data($con, $sql, [$name, $date, $project, $_SESSION['user']['id']]);
       if (!$add_user) {
         header("Location: /index.php");
       }
