@@ -5,23 +5,27 @@
                     <nav class="main-navigation">
                         <ul class="main-navigation__list">
 
-                            <?php 
-                            $index = 0;
-                            $num = count($data['categories']);
 
-                            while ($index < $num) {
-                                $cat = $data['categories'][$index];
-
-                                if ($index == 0): ?>
+                            <?php if ($_GET['cat']): ?>
+                                <li class="main-navigation__list-item">
+                            <?php else: ?>
                                 <li class="main-navigation__list-item main-navigation__list-item--active">
+                            <?php endif ?>
+                                    <a class="main-navigation__list-item-link" href="/index.php">Все</a>
+                                    <span class="main-navigation__list-item-count"><?php print (counter_task($data['tasks'], "Все")); ?></span>
+                                </li>
+
+
+                            <?php foreach($data[categories] as $cat): ?>
+                                <?php if ($_GET['cat'] == $cat['id']): ?>
+                                    <li class="main-navigation__list-item main-navigation__list-item--active">
                                 <?php else: ?>
-                                <li class="main-navigation__list-item">                     
-                                <?php endif; ?>
-                                <a class="main-navigation__list-item-link" href="/index.php?cat=<?=$index; ?>"><?=$cat; ?></a>
-                                <span class="main-navigation__list-item-count"><?php print (counter_task($data['tasks'], $cat)); ?></span>
-                            </li>
-                            <?php 
-                            $index++; } ?>
+                                    <li class="main-navigation__list-item">
+                                <?php endif ?>
+                                    <a class="main-navigation__list-item-link" href="/index.php?cat=<?= $cat['id']; ?>"><?= $cat['name']; ?></a>
+                                    <span class="main-navigation__list-item-count"><?php print (counter_task($data['tasks'], $cat['id'])); ?></span>
+                                </li>
+                            <?php endforeach; ?>
 
                         </ul>
                     </nav>
@@ -63,11 +67,14 @@
                     <table class="tasks">
                         <?php foreach ($data['tasks'] as $key => $val): ?>
                             <?php if ($_GET['cat'] == 0): ?>
-                                <?php if ($_COOKIE["show_completed"] == 0 && $val['ready'] == "Да"): ?>
+                                <?php if ($_COOKIE["show_completed"] == 0 && isset($val['dt_ready']) AND strtotime($val['dt_ready'])<strtotime($curdate)): ?>
                                     <tr class="tasks__item task <?='task--completed'?> hidden">
                                 
                                 <?php else: ?>
-                                    <?php if ($val['ready'] == "Да"): ?>
+                                    <?php 
+                                        $curdate = date('d-m-Y', strtotime('now'));
+                                     ?>
+                                    <?php if (isset($val['dt_ready']) AND strtotime($val['dt_ready'])<strtotime($curdate)): ?>
                                         <tr class="tasks__item task <?='task--completed'?>">
                                     <?php else: ?>
                                         <tr class="tasks__item task">
@@ -76,10 +83,10 @@
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
                                             <input class="checkbox__input visually-hidden" type="checkbox">
-                                            <span class="checkbox__text"><?=$val['task'];?></span>
+                                            <span class="checkbox__text"><?=$val['title'];?></span>
                                         </label>
                                     </td>
-                                    <td class="task__date"><?=$val['date'];?></td>
+                                    <td class="task__date"><?=date_create($val['deadline'])->Format('d-m-Y');?></td>
 
                                     <td class="task__controls">
                                         <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
@@ -99,20 +106,20 @@
                                         </ul>
                                     </td>
                                 </tr>
-                            <?php elseif ($data['categories'][$_GET['cat']] == $val['category']): ?>
+                            <?php elseif ($_GET['cat'] == $val['project_id']): ?>
 
-                                <?php if ($val['ready'] == "Да"): ?>
-                                    <tr class="tasks__item task <?='task--completed'?>">
-                                <?php else: ?>
-                                    <tr class="tasks__item task">
-                                <?php endif; ?>
+                                    <?php if (isset($val['dt_ready']) AND strtotime($val['dt_ready'])<strtotime($curdate)): ?>
+                                        <tr class="tasks__item task <?='task--completed'?>">
+                                    <?php else: ?>
+                                        <tr class="tasks__item task">
+                                    <?php endif; ?>
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
                                             <input class="checkbox__input visually-hidden" type="checkbox">
-                                            <span class="checkbox__text"><?=$val['task'];?></span>
+                                            <span class="checkbox__text"><?= $val['title']; ?></span>
                                         </label>
                                     </td>
-                                    <td class="task__date"><?=$val['date'];?></td>
+                                    <td class="task__date"><?=date_create($val['deadline'])->Format('d-m-Y');?></td>
 
                                     <td class="task__controls">
                                         <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
