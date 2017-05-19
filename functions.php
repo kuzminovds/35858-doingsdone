@@ -1,6 +1,5 @@
 <?php
 session_start();
-$con = mysqli_connect("localhost", "root", "root", "todolist");
 
 include 'mysql_helper.php';
 
@@ -18,6 +17,10 @@ function counter_task($array, $string) {
 	}
 
 	return $countTask;
+}
+
+function protect_code($in_data) {
+	return htmlspecialchars(strip_tags(trim($in_data)));
 }
 
 /**
@@ -53,31 +56,31 @@ function add_data($result, $sql, $data) {
 	}
 }
 
-if ($con == false){
-	print("Ошибка подключения: " . mysqli_connect_error());
-} else {
-		// Вывод списка категорий
-	$sql = "SELECT id, name FROM projects";
-	$result = mysqli_query($con, $sql);
+// if ($con == false){
+// 	print("Ошибка подключения: " . mysqli_connect_error());
+// } else {
+// 		// Вывод списка категорий
+// 	$sql = "SELECT id, name FROM projects";
+// 	$result = mysqli_query($con, $sql);
 
-	if ($result) {
-		$categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-			// print_r($categories);
-	} else {
-		$error = mysqli_error($con);
-	}
+// 	if ($result) {
+// 		$categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// 			// print_r($categories);
+// 	} else {
+// 		$error = mysqli_error($con);
+// 	}
 
-		// Вывод списка заданий
-	$sql = "SELECT id, title, deadline, project_id, dt_ready, ready FROM tasks";
-	$result = mysqli_query($con, $sql);
+// 		// Вывод списка заданий
+// 	$sql = "SELECT id, title, deadline, project_id, dt_ready, ready FROM tasks";
+// 	$result = mysqli_query($con, $sql);
 
-	if ($result) {
-		$tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
-			// print_r($tasks);
-	} else {
-		$error = mysqli_error($con);
-	}
-}
+// 	if ($result) {
+// 		$tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// 			// print_r($tasks);
+// 	} else {
+// 		$error = mysqli_error($con);
+// 	}
+// }
 
 if (!empty($_POST)) {
 	$name = $_POST["name"];
@@ -108,26 +111,23 @@ if (!empty($_POST)) {
 		}
 	}
 	if (isset($_FILES['preview'])) {
-			$file = $_FILES['preview'];
-			$uploaddir = __DIR__.DIRECTORY_SEPARATOR.uploads.DIRECTORY_SEPARATOR;
-			$uploadfile = $uploaddir . basename($file['name']);
-			move_uploaded_file($file["tmp_name"], $uploadfile);
+		$file = $_FILES['preview'];
+		$uploaddir = __DIR__.DIRECTORY_SEPARATOR.uploads.DIRECTORY_SEPARATOR;
+		$uploadfile = $uploaddir . basename($file['name']);
+		move_uploaded_file($file["tmp_name"], $uploadfile);
 	}
 	if ($errors == []) {
 		unset($_GET['add']);
 		$last_data = [];
 		if ($con == false){
-		  print("Ошибка подключения: " . mysqli_connect_error());
+			print("Ошибка подключения: " . mysqli_connect_error());
 		} else {
-      $sql = "INSERT INTO tasks (dt_add, title, deadline, project_id, user_id) VALUES (NOW(), ?, ?, ?, ?)";
-      add_data($con, $sql, [$name, $date, $project, $_SESSION['user']['id']]);
-      if (!$add_user) {
-        header("Location: /index.php");
-      }
-
+			$sql = "INSERT INTO tasks (dt_add, title, deadline, project_id, user_id) VALUES (NOW(), ?, ?, ?, ?)";
+			add_data($con, $sql, [$name, $date, $project, $_SESSION['user']['id']]);
+			if (!$add_user) {
+				header("Location: /index.php");
+			}
 		}
-		
-
 	}
 }
 
@@ -142,20 +142,20 @@ function searchUserByEmailLog($email, $users) {
 	return $result; 
 }
 
-function searchUserByEmail($email, $emails) {
-	$result = null;
-	foreach ($emails as $eml) {
-		if ($eml['email'] == $email) {
-			$result = 'Такой email уже зарегистрирован';
-			break;
-		}
-	}
-	return $result; 
-}
+// function searchUserByEmail($email, $emails) {
+// 	$result = null;
+// 	foreach ($emails as $eml) {
+// 		if ($eml['email'] == $email) {
+// 			$result = 'Такой email уже зарегистрирован';
+// 			break;
+// 		}
+// 	}
+// 	return $result; 
+// }
 
-if (isset($_GET['logout'])) {
-	unset($_SESSION['user']);
-}
+// if (isset($_GET['logout'])) {
+// 	unset($_SESSION['user']);
+// }
 
 $header = includeTemplate('header', []);
 $main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks, 'show_comleted_status' => $show_comleted_status]);
