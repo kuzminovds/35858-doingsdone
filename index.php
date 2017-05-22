@@ -1,6 +1,9 @@
 <?php
 session_start();
-include 'functions.php';
+require_once 'init.php';
+$db = new DataBase;
+$auth = new AuthUser;
+$user = $_SESSION['user'];
 
 if (isset($_GET['cat'])) {
   if (!isset($categories[$_GET['cat']])) {
@@ -22,6 +25,15 @@ if (isset($_GET['show_completed'])) {
 
   header('Location: /index.php', 200);
 }
+$sql = "SELECT id, name FROM projects";
+$categories = $db->selectData($sql);
+
+$sql = "SELECT id, title, deadline, project_id, dt_ready, ready FROM tasks WHERE user_id = '". $user[auth_user_id] . "';";
+$tasks = $db->selectData($sql);
+
+$main = includeTemplate('main', ['categories' => $categories, 'tasks' => $tasks, 'show_comleted_status' => $show_comleted_status]);
+
+$form = includeTemplate('form', ['categories' => $categories, 'errors' => $errors, 'last_data' => $last_data]);
 ?>
 <!DOCTYPE html>
 <html lang="en">

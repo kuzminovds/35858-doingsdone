@@ -1,4 +1,5 @@
 <?php 
+
 /**
  * Class User
  */
@@ -9,7 +10,6 @@ class AuthUser {
 		$sql = "SELECT id, dt_reg, name, password, avatar FROM users WHERE email = ?;";
 		$search_user = $db->selectData($sql, $email);
 		if (!empty($search_user) and password_verify($password, $search_user[0][3])) {
-		    print_r($search_user[0][3]);
 			$_SESSION['user'] = [
 				'auth_user_id' => $search_user[0][0],
 				'auth_dt_reg' => $search_user[0][1],

@@ -58,8 +58,8 @@ class DataBase {
 	 */ 
 	public function insertData($sql, $data)
 	{
-        $con = $this->connectDB();
-        $stmt = db_get_prepare_stmt($con, $sql, $data);
+		$con = $this->connectDB();
+		$stmt = db_get_prepare_stmt($con, $sql, $data);
 		mysqli_stmt_execute($stmt);
 		$result = mysqli_stmt_get_result($stmt);
 		$result_id = mysqli_stmt_insert_id($stmt); 
@@ -73,15 +73,17 @@ class DataBase {
 	 */ 
 	public function updateData($table, $new_data, $instruction)
 	{
-        $con = $this->connectDB();
-        $sql = "UPDATE ". $table . "SET ";
+			$con = $this->connectDB();
+			$sql = "UPDATE ". $table . " SET ";
 		foreach ($new_data as $key => $val) {
-			$data[] = $new_data[$key][$key($val)];
-			$sql .= $key($val) . " = ?";
+			$data[] = $new_data[$key][key($val)];
+			$sql .= key($new_data) . " = ?";
 			if ($key < count($new_data) - 1) $sql .= ", ";
 		}
 		$sql .= " WHERE " . key($instruction) . " = ?;";
+		// print_r($sql);
 		$data[] = $instruction[key($instruction)];
+		// print_r($data);
 		$stmt = db_get_prepare_stmt($con, $sql, $data);
 		mysqli_stmt_execute($stmt);
 		$result = mysqli_stmt_affected_rows($stmt);

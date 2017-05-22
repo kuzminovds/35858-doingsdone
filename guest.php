@@ -1,8 +1,6 @@
 <?php
-require_once 'functions.php';
-require_once 'classes/AuthUser.php';
-require_once 'classes/DataBase.php';
 session_start();
+require_once 'init.php';
 $db = new DataBase;
 $auth = new AuthUser;
 
@@ -27,48 +25,45 @@ if (isset($password)) {
 		$login_errors['password'] = "Вы не указали - Пароль";
 	}
 }
+$form = includeTemplate('login', ['login_errors' => $login_errors, 'login_data' => $login_data]);
 
-if ($auth->doAuth($email, $password)) { //Пользователь выполнил вход
-	header("Location: /index.php");
+if ($auth->doAuth($login_data, $password)) { //Пользователь выполнил вход
+	header("Location: /");
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+	<meta charset="UTF-8">
+	<title>Дела в порядке - welcome page</title>
+	<link rel="stylesheet" href="../css/normalize.css">
+	<link rel="stylesheet" href="../css/style.css">
+</head>
 
-	$form = includeTemplate('login', ['login_errors' => $login_errors, 'login_data' => $login_data]);
+<?php if (isset($_GET['login'])): ?>
+	<body class="body-background overlay">
+		<?=$form; ?>
+	<?php else: ?>
+		<body class="body-background">
+	<?php endif; ?>
 
-	?>
-	<!DOCTYPE html>
-	<html lang="en">
+	<?=$header; ?>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Дела в порядке - welcome page</title>
-		<link rel="stylesheet" href="../css/normalize.css">
-		<link rel="stylesheet" href="../css/style.css">
-	</head>
+		<div class="content">
+			<section class="welcome">
+				<h2 class="welcome__heading">«Дела в порядке»</h2>
 
-	<?php if (isset($_GET['login'])): ?>
-		<body class="body-background overlay">
-			<?=$form; ?>
-		<?php else: ?>
-			<body class="body-background">
-			<?php endif; ?>
+				<div class="welcome__text">
+					<p>«Дела в порядке» — это веб приложение для удобного ведения списка дел. Сервис помогает пользователям не забывать о предстоящих важных событиях и задачах.</p>
 
-			<?=$header; ?>
+					<p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
+				</div>
 
-			<div class="content">
-				<section class="welcome">
-					<h2 class="welcome__heading">«Дела в порядке»</h2>
-
-					<div class="welcome__text">
-						<p>«Дела в порядке» — это веб приложение для удобного ведения списка дел. Сервис помогает пользователям не забывать о предстоящих важных событиях и задачах.</p>
-
-						<p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
-					</div>
-
-					<a class="welcome__button button" href="/register.php">Зарегистрироваться</a>
-				</section>
-			</div>
+				<a class="welcome__button button" href="/register.php">Зарегистрироваться</a>
+			</section>
 		</div>
 	</div>
+</div>
 
-	<?=$footer; ?>
+<?=$footer; ?>
