@@ -40,50 +40,6 @@ function includeTemplate($filename, $data) {
 	}
 }
 
-
-if (!empty($_POST)) {
-	$name = $_POST["name"];
-	$project = $_POST["project"];
-	$date = $_POST["date"];
-
-	// $last_data = [
-	// 'name' => $name,
-	// 'project' => $project,
-	// 'date' => $date
-	// ];
-
-	if (isset($name)) {
-		if (strlen($name) == 0) {
-			$errors["name"] = "Заполните поле - Название";
-		}
-	}
-
-	if (isset($project)) {
-		if (strlen($project) == 0) {
-			$errors["project"] = "Заполните поле - Проект";
-		}
-	}
-
-	if (isset($date)) {
-		if (strlen($date) == 0) {
-			$errors["date"] = "Заполните поле - Дата выполнения";
-		}
-	}
-	if (isset($_FILES['preview'])) {
-		$file = $_FILES['preview'];
-		$uploaddir = __DIR__.DIRECTORY_SEPARATOR.uploads.DIRECTORY_SEPARATOR;
-		$uploadfile = $uploaddir . basename($file['name']);
-		move_uploaded_file($file["tmp_name"], $uploadfile);
-	}
-	if ($errors == []) {
-		unset($_GET['add']);
-		// $last_data = [];
-		$sql = "INSERT INTO tasks (dt_add, title, deadline, project_id, user_id) VALUES (NOW(), ?, ?, ?, ?)";
-		$db->insertData($sql, [$name, $date, $project, $_SESSION['user']['id']]);
-	}
-}
-
-
 function email_used($email) {
 	$email = protect_code($email);
 	if (!empty($email)) {
