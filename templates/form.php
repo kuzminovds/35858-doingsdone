@@ -1,21 +1,3 @@
-<?php 
-$con = mysqli_connect("localhost", "root", "root", "todolist");
-if ($con == false){
-  print("Ошибка подключения: " . mysqli_connect_error());
-} else {
-    // Вывод списка категорий
-  $sql = "SELECT id, name FROM projects";
-  $result = mysqli_query($con, $sql);
-
-  if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-      // print_r($categories);
-  } else {
-    $error = mysqli_error($con);
-  }
-}
- ?>
-
   <div class="modal">
     <button class="modal__close" type="button" name="button">Закрыть</button>
 
@@ -44,8 +26,8 @@ if ($con == false){
           <select class="form__input form__input--select" name="project" id="project">
             <option value="">Выбрать проект...</option>
 
-            <?php foreach ($categories as $key => $cat): ?>
-              <option value="<?=$cat['id']; ?>" <?php @$data['last_data']['project']==$cat['id'] ? print "selected" : false;?>><?=$cat['name']; ?></option>
+            <?php foreach ($data[categories] as $key => $cat): ?>
+              <option value="<?=$cat[0]; ?>" <?php @$data['last_data']['project']==$cat[0] ? print "selected" : false;?>><?=$cat[1]; ?></option>
             <?php endforeach ?>
           </select>
         <?php endif ?>
