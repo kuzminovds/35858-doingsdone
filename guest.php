@@ -42,7 +42,7 @@ if ($auth->doAuth($login_data, $password)) { //Пользователь выпо
 </head>
 
 <?php if (isset($_GET['login'])): ?>
-	<body class="body-background overlay">
+	    <body class="body-background overlay">
 		<?=$form; ?>
 	<?php else: ?>
 		<body class="body-background">

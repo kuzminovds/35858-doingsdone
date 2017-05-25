@@ -73,8 +73,8 @@ class DataBase {
 	 */ 
 	public function updateData($table, $new_data, $instruction)
 	{
-			$con = $this->connectDB();
-			$sql = "UPDATE ". $table . " SET ";
+		$con = $this->connectDB();
+		$sql = "UPDATE ". $table . " SET ";
 		foreach ($new_data as $key => $val) {
 			$data[] = $new_data[$key][key($val)];
 			$sql .= key($new_data) . " = ?";
