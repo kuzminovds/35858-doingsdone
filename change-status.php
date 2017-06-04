@@ -7,6 +7,7 @@ if (isset($_GET['id']) AND isset($_GET['status'])) {
 	$status = ['ready' => $_GET['status']];
 	$id = ['id' => $_GET['id']];
 	$table = 'tasks';
+	$aa =  123;
 
 	$db->updateData($table, $status, $id);
 }
